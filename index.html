@@ -117,6 +117,12 @@
             color: #a0522d;
             font-size: 0.9rem;
             opacity: 0.6;
+            position: absolute;
+        }
+
+        /* 當有圖片時隱藏預覽文字 */
+        .template-preview:has(img)::after {
+            display: none;
         }
 
         .template-info h3 {
@@ -260,6 +266,8 @@
             object-fit: cover;
             border-radius: 10px;
         }
+
+        /* 影片預覽區塊沒有預設文字，因為有播放按鈕 */
 
         .video-info h3 {
             color: #8b4513;
