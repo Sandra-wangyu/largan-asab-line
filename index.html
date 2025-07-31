@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LINE 圖文表單免費下載</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', '微軟正黑體', sans-serif;
+            background: linear-gradient(135deg, #f5e6d3, #e8d5c4);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* 背景花朵裝飾 */
+        .flower-bg {
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><g fill="%23f4f1ec" opacity="0.3"><ellipse cx="100" cy="60" rx="25" ry="45" transform="rotate(0 100 100)"/><ellipse cx="100" cy="60" rx="25" ry="45" transform="rotate(72 100 100)"/><ellipse cx="100" cy="60" rx="25" ry="45" transform="rotate(144 100 100)"/><ellipse cx="100" cy="60" rx="25" ry="45" transform="rotate(216 100 100)"/><ellipse cx="100" cy="60" rx="25" ry="45" transform="rotate(288 100 100)"/><circle cx="100" cy="100" r="15" fill="%23d4a574"/></g></svg>') no-repeat center;
+            background-size: contain;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            color: #8b4513;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #a0522d;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .template-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(139, 69, 19, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .template-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #d4a574, #deb887);
+        }
+
+        .template-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(139, 69, 19, 0.15);
+            border-color: #d4a574;
+        }
+
+        .template-preview {
+            width: 100%;
+            height: 200px;
+            background: #f8f6f0;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #d4a574;
+            position: relative;
+        }
+
+        .template-preview img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .template-preview::after {
+            content: '預覽圖片';
+            color: #a0522d;
+            font-size: 0.9rem;
+            opacity: 0.6;
+        }
+
+        .template-info h3 {
+            color: #8b4513;
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .template-info p {
+            color: #a0522d;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .download-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #8b4513, #a0522d);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .download-btn:hover {
+            background: linear-gradient(135deg, #a0522d, #8b4513);
+            transform: scale(1.02);
+        }
+
+        .download-btn:active {
+            transform: scale(0.98);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 20px;
+            color: #8b4513;
+        }
+
+        .footer h3 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .footer p {
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        /* 影片區塊樣式 */
+        .video-section {
+            margin-bottom: 50px;
+        }
+
+        .video-section h2,
+        .download-section h2 {
+            color: #8b4513;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .video-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(139, 69, 19, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #d4a574, #8b4513);
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(139, 69, 19, 0.15);
+            border-color: #d4a574;
+        }
+
+        .video-preview {
+            width: 100%;
+            height: 180px;
+            background: #f8f6f0;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #d4a574;
+            position: relative;
+        }
+
+        .video-preview .play-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(139, 69, 19, 0.8);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            position: absolute;
+            z-index: 2;
+        }
+
+        .video-preview img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .video-info h3 {
+            color: #8b4513;
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .video-info p {
+            color: #a0522d;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .watch-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #d4a574, #8b4513);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .watch-btn:hover {
+            background: linear-gradient(135deg, #8b4513, #a0522d);
+            transform: scale(1.02);
+        }
+
+        .play-icon-btn {
+            fill: currentColor;
+        }
+
+        .download-section {
+            margin-bottom: 20px;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .templates-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .template-card {
+                padding: 20px;
+            }
+        }
+
+        /* 下載圖示 */
+        .download-icon {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+    </style>
+</head>
+<body>
+    <div class="flower-bg"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>LINE 圖文表單免費下載</h1>
+            <p>精美設計範本，一鍵下載立即使用</p>
+        </div>
+
+        <!-- 影片教學區塊 -->
+        <div class="video-section">
+            <h2>📹 操作教學影片</h2>
+            <div class="video-grid">
+                <div class="video-card" onclick="watchVideo('1AbC2DeF3GhI4JkL5MnO6PqR7StU8VwX9')">
+                    <div class="video-preview">
+                        <div class="play-icon">▶</div>
+                        <!-- <img src="video1-thumb.jpg" alt="教學影片1"> -->
+                    </div>
+                    <div class="video-info">
+                        <h3>LINE 圖文表單基礎設定</h3>
+                        <p>從零開始學習如何建立和設定 LINE 圖文表單</p>
+                    </div>
+                    <button class="watch-btn">
+                        <svg class="play-icon-btn" viewBox="0 0 24 24" width="18" height="18">
+                            <path d="M8 5v14l11-7z" fill="currentColor"/>
+                        </svg>
+                        觀看影片
+                    </button>
+                </div>
+
+                <div class="video-card" onclick="watchVideo('2BcD3EfG4HiJ5KlM6NoPqRsT7UvW8XyZ0')">
+                    <div class="video-preview">
+                        <div class="play-icon">▶</div>
+                        <!-- <img src="video2-thumb.jpg" alt="教學影片2"> -->
+                    </div>
+                    <div class="video-info">
+                        <h3>進階功能應用技巧</h3>
+                        <p>學習進階設定和自訂功能，提升表單使用效果</p>
+                    </div>
+                    <button class="watch-btn">
+                        <svg class="play-icon-btn" viewBox="0 0 24 24" width="18" height="18">
+                            <path d="M8 5v14l11-7z" fill="currentColor"/>
+                        </svg>
+                        觀看影片
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 範本下載區塊 -->
+        <div class="download-section">
+            <h2>📎 範本下載</h2>
+        </div>
+
+        <div class="templates-grid">
+            <!-- 範本1 -->
+            <div class="template-card" onclick="downloadTemplate('1BcD2EfG3HiJ4KlM5NoPqRsT6UvW7XyZ8')">
+                <div class="template-preview">
+                    <!-- 這裡放預覽圖片 -->
+                    <!-- <img src="template1-thumb.jpg" alt="商品促銷範本"> -->
+                </div>
+                <div class="template-info">
+                    <h3>商品促銷範本</h3>
+                    <p>適合商品推廣、特價活動使用，簡潔美觀的設計風格</p>
+                </div>
+                <button class="download-btn">
+                    <svg class="download-icon" viewBox="0 0 24 24">
+                        <path d="M12 15l-4-4h3V4h2v7h3l-4 4zm-8 3h16v2H4v-2z"/>
+                    </svg>
+                    立即下載
+                </button>
+            </div>
+
+            <!-- 範本2 -->
+            <div class="template-card" onclick="downloadTemplate('9AbC0DeF1GhI2JkL3MnO4PqR5StU6VwX7')">
+                <div class="template-preview">
+                    <!-- <img src="template2-thumb.jpg" alt="活動報名範本"> -->
+                </div>
+                <div class="template-info">
+                    <h3>活動報名範本</h3>
+                    <p>活動宣傳與報名表單，包含完整的資訊收集欄位</p>
+                </div>
+                <button class="download-btn">
+                    <svg class="download-icon" viewBox="0 0 24 24">
+                        <path d="M12 15l-4-4h3V4h2v7h3l-4 4zm-8 3h16v2H4v-2z"/>
+                    </svg>
+                    立即下載
+                </button>
+            </div>
+
+            <!-- 範本3 -->
+            <div class="template-card" onclick="downloadTemplate('8YzA7BcD6EfG5HiJ4KlM3NoPqRsT2UvW1')">
+                <div class="template-preview">
+                    <!-- <img src="template3-thumb.jpg" alt="客戶調查範本"> -->
+                </div>
+                <div class="template-info">
+                    <h3>客戶調查範本</h3>
+                    <p>收集客戶意見與滿意度調查，專業問卷設計</p>
+                </div>
+                <button class="download-btn">
+                    <svg class="download-icon" viewBox="0 0 24 24">
+                        <path d="M12 15l-4-4h3V4h2v7h3l-4 4zm-8 3h16v2H4v-2z"/>
+                    </svg>
+                    立即下載
+                </button>
+            </div>
+
+            <!-- 範本4 -->
+            <div class="template-card" onclick="downloadTemplate('6XyZ5AbC4DeF3GhI2JkL1MnO0PqR9StU8')">
+                <div class="template-preview">
+                    <!-- <img src="template4-thumb.jpg" alt="預約服務範本"> -->
+                </div>
+                <div class="template-info">
+                    <h3>預約服務範本</h3>
+                    <p>美容、餐廳、診所等服務業預約表單，操作簡單</p>
+                </div>
+                <button class="download-btn">
+                    <svg class="download-icon" viewBox="0 0 24 24">
+                        <path d="M12 15l-4-4h3V4h2v7h3l-4 4zm-8 3h16v2H4v-2z"/>
+                    </svg>
+                    立即下載
+                </button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <h3>使用說明</h3>
+            <p>
+                點擊「立即下載」按鈕將開啟 Google Drive 下載頁面<br>
+                每次只能下載一個檔案，請根據需要選擇合適的範本<br>
+                所有範本皆為免費提供，歡迎分享給需要的朋友
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // 下載函數
+        function downloadTemplate(fileId) {
+            // 顯示下載提示
+            const card = event.currentTarget;
+            const btn = card.querySelector('.download-btn');
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = '<span>準備下載...</span>';
+            btn.style.background = 'linear-gradient(135deg, #d4a574, #deb887)';
+            
+            // 開啟 Google Drive 下載連結
+            const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+            window.open(downloadUrl, '_blank');
+            
+            // 恢復按鈕狀態
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.style.background = 'linear-gradient(135deg, #8b4513, #a0522d)';
+            }, 2000);
+        }
+
+        // 頁面載入動畫
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.template-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
