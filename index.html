@@ -57,6 +57,39 @@
             opacity: 0.9;
         }
 
+        .coming-soon {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 15px;
+            z-index: 3;
+        }
+        
+        .video-card.disabled {
+            cursor: default;
+        }
+
+        .video-card.disabled:hover {
+            transform: none;
+            box-shadow: 0 8px 25px rgba(139, 69, 19, 0.1);
+            border-color: transparent;
+        }
+
+        .watch-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
         .templates-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -368,25 +401,24 @@
                     </button>
                 </div>
 
-                <div class="video-card" onclick="watchVideo('2BcD3EfG4HiJ5KlM6NoPqRsT7UvW8XyZ0')">
+                <div class="video-card disabled">
                     <div class="video-preview">
-                        <div class="play-icon">▶</div>
-                        <!-- <img src="video2-thumb.jpg" alt="教學影片2"> -->
+                        <div class="coming-soon">即將上線</div>
                     </div>
                     <div class="video-info">
                         <h3>進階功能應用技巧</h3>
                         <p>學習進階設定和自訂功能，提升表單使用效果</p>
                     </div>
-                    <button class="watch-btn">
+                    <button class="watch-btn" disabled>
                         <svg class="play-icon-btn" viewBox="0 0 24 24" width="18" height="18">
                             <path d="M8 5v14l11-7z" fill="currentColor"/>
                         </svg>
-                        觀看影片
+                        即將上線
                     </button>
                 </div>
             </div>
         </div>
-
+        
         <!-- 公版下載區塊 -->
         <div class="download-section">
             <h2>LINE圖文選單公版</h2>
